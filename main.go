@@ -1,13 +1,21 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"personal-blog/controllers"
+	"personal-blog/data"
 )
 
 func main() {
+	// Init JSON storage
+	err := data.InitStorage()
+	if err != nil {
+		fmt.Println("%w", err)
+	}
+
 	// Serve static files
 	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
