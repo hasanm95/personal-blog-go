@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"personal-blog/controllers"
 )
 
 func main() {
@@ -11,12 +12,15 @@ func main() {
 	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	// Routes
+	// HTML Routes
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/article/", articleHandler)
 	http.HandleFunc("/admin", adminHandler)
 	http.HandleFunc("/new", newArticleHandler)
 	http.HandleFunc("/edit/", editArticleHandler)
+
+	// API Routes
+	// http.HandleFunc("/")
 
 	log.Println("Server starting on :8080...")
 	log.Fatal(http.ListenAndServe(":8080", nil))
@@ -40,9 +44,10 @@ func adminHandler(w http.ResponseWriter, r *http.Request) {
 func newArticleHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("templates/layout.html", "templates/new.html"))
 	tmpl.Execute(w, nil)
+	controllers.NewBlogHandler(w, r)
 }
 
 func editArticleHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("templates/layout.html", "templates/edit.html"))
 	tmpl.Execute(w, nil)
-} 
+}
