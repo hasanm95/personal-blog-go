@@ -42,9 +42,13 @@ func adminHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func newArticleHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		controllers.NewBlogHandler(w, r)
+		return
+	}
 	tmpl := template.Must(template.ParseFiles("templates/layout.html", "templates/new.html"))
 	tmpl.Execute(w, nil)
-	controllers.NewBlogHandler(w, r)
+
 }
 
 func editArticleHandler(w http.ResponseWriter, r *http.Request) {

@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 func NewBlogHandler(w http.ResponseWriter, r *http.Request) {
@@ -14,11 +15,11 @@ func NewBlogHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse form data
 	err := r.ParseForm()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 
-	title := r.FormValue("title")
-	content := r.FormValue("content")
+	title := strings.TrimSpace(r.FormValue("title"))
+	content := strings.TrimSpace(r.FormValue("content"))
 
 	fmt.Println("data", title, content)
 }
