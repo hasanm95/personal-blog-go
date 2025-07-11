@@ -3,11 +3,10 @@ package data
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"personal-blog/types"
 )
-
-var blogs []types.Blog
 
 func InitStorage() error {
 	fileName := "posts.json"
@@ -23,6 +22,12 @@ func InitStorage() error {
 }
 
 func AddNewBlog(newBlog types.Blog) error {
+	blogs, err := GetArticles()
+
+	if err != nil {
+		return fmt.Errorf("failed to get data: %w", err)
+	}
+
 	blogs = append(blogs, newBlog)
 	blogBytes, err := json.MarshalIndent(blogs, "", "    ")
 	if err != nil {
@@ -35,4 +40,33 @@ func AddNewBlog(newBlog types.Blog) error {
 	}
 
 	return nil
+}
+
+func GetArticles() ([]types.Blog, error) {
+	var blogs []types.Blog
+	file, err := os.Open("posts.json")
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to open file %v", err)
+	}
+
+	defer file.Close()
+
+	fileBytes, err := io.ReadAll(file)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to read file %v", err)
+	}
+
+	if len(fileBytes) == 0 {
+		return blogs, nil
+	}
+
+	err = json.Unmarshal(fileBytes, &blogs)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal file %v", err)
+	}
+
+	return blogs, nil
 }
