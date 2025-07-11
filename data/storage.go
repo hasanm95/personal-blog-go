@@ -10,12 +10,13 @@ import (
 var blogs []types.Blog
 
 func InitStorage() error {
-	file, err := os.Create("posts.json")
+	fileName := "posts.json"
+	file, err := os.OpenFile(fileName, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 
 	if err != nil {
-		return fmt.Errorf("failed to create file: %w", err)
-	}
 
+		return fmt.Errorf("failed to open file: %v", err)
+	}
 	defer file.Close()
 
 	return nil
