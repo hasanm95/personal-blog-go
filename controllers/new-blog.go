@@ -48,5 +48,5 @@ func NewBlogHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
-	// http.Redirect(w, r, "/admin", http.StatusPermanentRedirect)
+	http.Redirect(w, r, "/admin", http.StatusSeeOther)
 }
