@@ -9,44 +9,20 @@
 
     <!-- Sample articles -->
     <div class="articles-list">
-        <article class="article-card">
-            <div class="article-header">
-                <h2 class="article-title">Getting Started with Go Programming</h2>
-                <div class="article-actions">
-                    <a href="/edit/1" class="button">Edit</a>
-                    <button class="button delete">Delete</button>
+        {{range .Blogs}}
+            <article class="article-card">
+                <div class="article-header">
+                    <h2 class="article-title">{{.Title}}</h2>
+                    <div class="article-actions">
+                        <a href="{{printf "/edit/%v" .ID}}" class="button">Edit</a>
+                        <button class="button delete">Delete</button>
+                    </div>
                 </div>
-            </div>
-            <div class="article-meta">
-                Published on March 15, 2024
-            </div>
-        </article>
-
-        <article class="article-card">
-            <div class="article-header">
-                <h2 class="article-title">Building RESTful APIs with Go</h2>
-                <div class="article-actions">
-                    <a href="/edit/2" class="button">Edit</a>
-                    <button class="button delete">Delete</button>
+                <div class="article-meta">
+                    Published on {{.CreatedAt}}
                 </div>
-            </div>
-            <div class="article-meta">
-                Published on March 10, 2024
-            </div>
-        </article>
-
-        <article class="article-card">
-            <div class="article-header">
-                <h2 class="article-title">Go Concurrency Patterns</h2>
-                <div class="article-actions">
-                    <a href="/edit/3" class="button">Edit</a>
-                    <button class="button delete">Delete</button>
-                </div>
-            </div>
-            <div class="article-meta">
-                Published on March 5, 2024
-            </div>
-        </article>
+            </article>
+        {{end}}
     </div>
 </div>
 {{end}} 

@@ -4,11 +4,10 @@ import (
 	"fmt"
 	"html/template"
 	"log"
-	"log/slog"
 	"net/http"
-	"os"
 	"personal-blog/controllers"
 	"personal-blog/data"
+	"personal-blog/types"
 )
 
 func main() {
@@ -47,25 +46,21 @@ func articleHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func adminHandler(w http.ResponseWriter, r *http.Request) {
-	articles, err := controllers.GetArticles()
+	blogs, err := controllers.GetArticles()
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
 	}
 
-	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
-
-	for _, p := range articles {
-		logger.Info("Product details",
-			slog.Int("id", p.ID),
-			slog.String("Title", p.Title),
-			slog.String("Content", p.Content),
-		)
+	data := struct {
+		Blogs []types.BlogView
+	}{
+		Blogs: blogs,
 	}
 
 	tmpl := template.Must(template.ParseFiles("templates/layout.html", "templates/admin.html"))
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, data)
 }
 
 func newArticleHandler(w http.ResponseWriter, r *http.Request) {

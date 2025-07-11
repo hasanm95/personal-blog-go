@@ -9,3 +9,11 @@ type Blog struct {
 	CreatedAt time.Time
 	UpdatedAt *time.Time
 }
+
+type BlogView struct {
+	ID        int
+	Title     string
+	Content   string
+	CreatedAt string
+	UpdatedAt *time.Time
+}

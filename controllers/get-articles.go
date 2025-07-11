@@ -1,39 +1,34 @@
 package controllers
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
-	"os"
+	"personal-blog/data"
 	"personal-blog/types"
+	"time"
 )
 
-func GetArticles() ([]types.Blog, error) {
-	var articles []types.Blog
+func blogViewFromBlog(b types.Blog) types.BlogView {
+	return types.BlogView{
+		ID:        b.ID,
+		Title:     b.Title,
+		Content:   b.Content,
+		CreatedAt: b.CreatedAt.Format(time.RFC822),
+		UpdatedAt: b.UpdatedAt,
+	}
 
-	file, err := os.Open("posts.json")
+}
+
+func GetArticles() ([]types.BlogView, error) {
+	blogs, err := data.GetArticles()
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to open file %v", err)
+		return nil, fmt.Errorf("failed to get data %v", err)
 	}
 
-	defer file.Close()
-
-	fileBytes, err := io.ReadAll(file)
-
-	if err != nil {
-		return nil, fmt.Errorf("failed to read file %v", err)
+	var blogsesView []types.BlogView
+	for _, b := range blogs {
+		blogsesView = append(blogsesView, blogViewFromBlog(b))
 	}
 
-	if len(fileBytes) == 0 {
-		return articles, nil
-	}
-
-	err = json.Unmarshal(fileBytes, &articles)
-
-	if err != nil {
-		return nil, fmt.Errorf("failed to unmarshal file %v", err)
-	}
-
-	return articles, nil
+	return blogsesView, nil
 }
