@@ -1,27 +1,15 @@
 {{define "content"}}
 <div class="form-container">
     <h1>Edit Article</h1>
-    <form action="/edit/1" method="POST">
+    <form action="{{printf "/edit/%v" .Blog.ID}}" method="POST">
         <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" id="title" name="title" value="Getting Started with Go Programming" required>
+            <input type="text" id="title" name="title" value={{.Blog.Title}} required>
         </div>
 
         <div class="form-group">
             <label for="content">Content</label>
-            <textarea id="content" name="content" required>Go, also known as Golang, is a statically typed, compiled programming language designed at Google. It's known for its simplicity, efficiency, and strong support for concurrent programming.
-
-Why Choose Go?
-Go was designed to address several key challenges in modern software development:
-- Fast compilation and execution
-- Built-in concurrency support
-- Strong standard library
-- Simple and clean syntax</textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="date">Publication Date</label>
-            <input type="date" id="date" name="date" value="2024-03-15" required>
+            <textarea id="content" name="content" required>{{.Blog.Content}}</textarea>
         </div>
 
         <div class="form-actions">

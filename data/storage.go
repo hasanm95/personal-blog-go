@@ -70,3 +70,17 @@ func GetArticles() ([]types.Blog, error) {
 
 	return blogs, nil
 }
+
+func UpdateBlog(blogs []types.Blog) error {
+	blogBytes, err := json.MarshalIndent(blogs, "", "    ")
+	if err != nil {
+		return fmt.Errorf("failed to marshal data: %w", err)
+	}
+
+	err = os.WriteFile("posts.json", blogBytes, 0644)
+	if err != nil {
+		return fmt.Errorf("failed to write data to json: %w", err)
+	}
+
+	return nil
+}

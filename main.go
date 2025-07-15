@@ -26,7 +26,7 @@ func main() {
 	http.HandleFunc("/article/", articleHandler)
 	http.HandleFunc("/admin", adminHandler)
 	http.HandleFunc("/new", newArticleHandler)
-	http.HandleFunc("/edit/", editArticleHandler)
+	http.HandleFunc("/edit/{id}", editArticleHandler)
 
 	// API Routes
 	// http.HandleFunc("/")
@@ -74,6 +74,19 @@ func newArticleHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func editArticleHandler(w http.ResponseWriter, r *http.Request) {
+	blog := controllers.GetArticleByID(w, r)
+
+	data := struct {
+		Blog types.Blog
+	}{
+		Blog: blog,
+	}
+
+	if r.Method == http.MethodPost {
+		controllers.UpdateArticle(w, r, blog)
+		return
+	}
+
 	tmpl := template.Must(template.ParseFiles("templates/layout.html", "templates/edit.html"))
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, data)
 }

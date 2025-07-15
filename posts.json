@@ -1,10 +1,10 @@
 [
     {
         "ID": 1629695648,
-        "Title": "article 2",
-        "Content": "dsfsadf dfasdf",
+        "Title": "article update",
+        "Content": "dsfsadf dfasdf dfasdf dfasdfasdf sdfasda",
         "CreatedAt": "2025-07-11T16:53:31.865127+08:00",
-        "UpdatedAt": null
+        "UpdatedAt": "2025-07-15T12:27:47.519829+08:00"
     },
     {
         "ID": 414769762,
@@ -15,9 +15,9 @@
     },
     {
         "ID": 2846228333,
-        "Title": "article 3",
-        "Content": "dsfaf fasdfasd afsdf",
+        "Title": "article 3 update",
+        "Content": "dsfaf fasdfasd afsdf dfasdfa dsfadfadf dfasdfa",
         "CreatedAt": "2025-07-11T16:54:05.05986+08:00",
-        "UpdatedAt": null
+        "UpdatedAt": "2025-07-15T12:28:13.521439+08:00"
     }
 ]
