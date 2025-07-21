@@ -2,41 +2,18 @@
 <div class="articles-container">
     <h1>Latest Articles</h1>
     
-    <!-- Sample articles - these will be replaced with dynamic content later -->
-    <article class="article-card">
-        <h2 class="article-title">
-            <a href="/article/1">Getting Started with Go Programming</a>
-        </h2>
-        <div class="article-meta">
-            Published on March 15, 2024
-        </div>
-        <p class="article-excerpt">
-            Learn the basics of Go programming language and why it's becoming increasingly popular for web development and system programming...
-        </p>
-    </article>
-
-    <article class="article-card">
-        <h2 class="article-title">
-            <a href="/article/2">Building RESTful APIs with Go</a>
-        </h2>
-        <div class="article-meta">
-            Published on March 10, 2024
-        </div>
-        <p class="article-excerpt">
-            A comprehensive guide to building robust and scalable RESTful APIs using Go's standard library and popular frameworks...
-        </p>
-    </article>
-
-    <article class="article-card">
-        <h2 class="article-title">
-            <a href="/article/3">Go Concurrency Patterns</a>
-        </h2>
-        <div class="article-meta">
-            Published on March 5, 2024
-        </div>
-        <p class="article-excerpt">
-            Explore the power of Go's concurrency features and learn how to write efficient concurrent programs using goroutines and channels...
-        </p>
-    </article>
+    {{range .Blogs}}
+        <article class="article-card">
+            <h2 class="article-title">
+                <a href="{{printf "/article/%v" .ID}}">{{.Title}}</a>
+            </h2>
+            <div class="article-meta">
+                Published on {{.CreatedAt}}
+            </div>
+            <p class="article-excerpt">
+                {{.Content}}
+            </p>
+        </article>
+    {{end}}
 </div>
 {{end}} 

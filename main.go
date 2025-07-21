@@ -37,8 +37,20 @@ func main() {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
+	blogs, err := controllers.GetArticles()
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusServiceUnavailable)
+		return
+	}
+
+	data := struct {
+		Blogs []types.BlogView
+	}{
+		Blogs: blogs,
+	}
 	tmpl := template.Must(template.ParseFiles("templates/layout.html", "templates/home.html"))
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, data)
 }
 
 func articleHandler(w http.ResponseWriter, r *http.Request) {
