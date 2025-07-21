@@ -23,7 +23,7 @@ func main() {
 
 	// HTML Routes
 	http.HandleFunc("/", homeHandler)
-	http.HandleFunc("/article/", articleHandler)
+	http.HandleFunc("/article/{id}", articleHandler)
 	http.HandleFunc("/admin", adminHandler)
 	http.HandleFunc("/new", newArticleHandler)
 	http.HandleFunc("/edit/{id}", editArticleHandler)
@@ -54,8 +54,15 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func articleHandler(w http.ResponseWriter, r *http.Request) {
+	blog := controllers.GetArticleByID(w, r)
+
+	data := struct {
+		Blog types.Blog
+	}{
+		Blog: blog,
+	}
 	tmpl := template.Must(template.ParseFiles("templates/layout.html", "templates/article.html"))
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, data)
 }
 
 func adminHandler(w http.ResponseWriter, r *http.Request) {

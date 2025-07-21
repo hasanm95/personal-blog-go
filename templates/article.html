@@ -1,47 +1,11 @@
 {{define "content"}}
 <article class="article-detail">
-    <h1 class="article-title">Getting Started with Go Programming</h1>
+    <h1 class="article-title">{{.Blog.Title}}</h1>
     <div class="article-meta">
-        Published on March 15, 2024
+        Published on {{.Blog.CreatedAt}}
     </div>
     <div class="article-content">
-        <p>
-            Go, also known as Golang, is a statically typed, compiled programming language designed at Google. It's known for its simplicity, efficiency, and strong support for concurrent programming.
-        </p>
-
-        <h2>Why Choose Go?</h2>
-        <p>
-            Go was designed to address several key challenges in modern software development:
-        </p>
-        <ul>
-            <li>Fast compilation and execution</li>
-            <li>Built-in concurrency support</li>
-            <li>Strong standard library</li>
-            <li>Simple and clean syntax</li>
-        </ul>
-
-        <h2>Getting Started</h2>
-        <p>
-            To begin programming in Go, you'll need to:
-        </p>
-        <ol>
-            <li>Install the Go compiler</li>
-            <li>Set up your development environment</li>
-            <li>Create your first Go program</li>
-        </ol>
-
-        <h2>Your First Go Program</h2>
-        <pre><code>package main
-
-import "fmt"
-
-func main() {
-    fmt.Println("Hello, Go!")
-}</code></pre>
-
-        <p>
-            This simple program demonstrates the basic structure of a Go application. The <code>main</code> package is the entry point of the program, and the <code>main</code> function is where execution begins.
-        </p>
+        {{.Blog.Content}}
     </div>
 </article>
 {{end}} 
