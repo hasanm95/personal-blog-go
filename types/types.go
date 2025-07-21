@@ -17,3 +17,8 @@ type BlogView struct {
 	CreatedAt string
 	UpdatedAt *time.Time
 }
+
+type User struct {
+	Username string
+	Password string
+}

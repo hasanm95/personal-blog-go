@@ -21,13 +21,17 @@ func main() {
 	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	// HTML Routes
+	// Public Routes
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/article/{id}", articleHandler)
-	http.HandleFunc("/admin", adminHandler)
-	http.HandleFunc("/new", newArticleHandler)
-	http.HandleFunc("/edit/{id}", editArticleHandler)
-	http.HandleFunc("/delete/{id}", deleteArticleHandler)
+	http.HandleFunc("/login", loginHandlerWrapper)
+
+	// Protected Admin Routes
+	http.HandleFunc("/admin", controllers.AuthMiddleware(adminHandler))
+	http.HandleFunc("/new", controllers.AuthMiddleware(newArticleHandler))
+	http.HandleFunc("/edit/{id}", controllers.AuthMiddleware(editArticleHandler))
+	http.HandleFunc("/delete/{id}", controllers.AuthMiddleware(deleteArticleHandler))
+	http.HandleFunc("/logout", controllers.LogoutHandler)
 
 	// API Routes
 	// http.HandleFunc("/")
@@ -49,7 +53,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	}{
 		Blogs: blogs,
 	}
-	tmpl := template.Must(template.ParseFiles("templates/layout.html", "templates/home.html"))
+	tmpl := template.Must(template.ParseFiles("templates/layout-fe.html", "templates/home.html"))
 	tmpl.Execute(w, data)
 }
 
@@ -61,7 +65,7 @@ func articleHandler(w http.ResponseWriter, r *http.Request) {
 	}{
 		Blog: blog,
 	}
-	tmpl := template.Must(template.ParseFiles("templates/layout.html", "templates/article.html"))
+	tmpl := template.Must(template.ParseFiles("templates/layout-fe.html", "templates/article.html"))
 	tmpl.Execute(w, data)
 }
 
@@ -79,7 +83,7 @@ func adminHandler(w http.ResponseWriter, r *http.Request) {
 		Blogs: blogs,
 	}
 
-	tmpl := template.Must(template.ParseFiles("templates/layout.html", "templates/admin.html"))
+	tmpl := template.Must(template.ParseFiles("templates/layout-be.html", "templates/admin.html"))
 	tmpl.Execute(w, data)
 }
 
@@ -88,7 +92,7 @@ func newArticleHandler(w http.ResponseWriter, r *http.Request) {
 		controllers.NewBlogHandler(w, r)
 		return
 	}
-	tmpl := template.Must(template.ParseFiles("templates/layout.html", "templates/new.html"))
+	tmpl := template.Must(template.ParseFiles("templates/layout-be.html", "templates/new.html"))
 	tmpl.Execute(w, nil)
 
 }
@@ -107,10 +111,28 @@ func editArticleHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpl := template.Must(template.ParseFiles("templates/layout.html", "templates/edit.html"))
+	tmpl := template.Must(template.ParseFiles("templates/layout-be.html", "templates/edit.html"))
 	tmpl.Execute(w, data)
 }
 
 func deleteArticleHandler(w http.ResponseWriter, r *http.Request) {
 	controllers.DeleteArticle(w, r)
+}
+
+func loginHandlerWrapper(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		controllers.LoginHandler(w, r)
+		return
+	}
+
+	// Show login form
+	showError := r.URL.Query().Get("error") == "1"
+	data := struct {
+		Error bool
+	}{
+		Error: showError,
+	}
+
+	tmpl := template.Must(template.ParseFiles("templates/layout-fe.html", "templates/login.html"))
+	tmpl.Execute(w, data)
 }
