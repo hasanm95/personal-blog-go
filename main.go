@@ -27,6 +27,7 @@ func main() {
 	http.HandleFunc("/admin", adminHandler)
 	http.HandleFunc("/new", newArticleHandler)
 	http.HandleFunc("/edit/{id}", editArticleHandler)
+	http.HandleFunc("/delete/{id}", deleteArticleHandler)
 
 	// API Routes
 	// http.HandleFunc("/")
@@ -89,4 +90,8 @@ func editArticleHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl := template.Must(template.ParseFiles("templates/layout.html", "templates/edit.html"))
 	tmpl.Execute(w, data)
+}
+
+func deleteArticleHandler(w http.ResponseWriter, r *http.Request) {
+	controllers.DeleteArticle(w, r)
 }

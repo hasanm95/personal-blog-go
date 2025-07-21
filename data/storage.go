@@ -71,7 +71,7 @@ func GetArticles() ([]types.Blog, error) {
 	return blogs, nil
 }
 
-func UpdateBlog(blogs []types.Blog) error {
+func RestoreBlog(blogs []types.Blog) error {
 	blogBytes, err := json.MarshalIndent(blogs, "", "    ")
 	if err != nil {
 		return fmt.Errorf("failed to marshal data: %w", err)

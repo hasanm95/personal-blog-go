@@ -9,19 +9,6 @@ import (
 )
 
 func UpdateArticle(w http.ResponseWriter, r *http.Request, blog types.Blog) {
-
-	// blogId := r.PathValue("id")
-
-	// if blogId == "" {
-	// 	http.Error(w, "provide a blog id", http.StatusBadRequest)
-	// }
-
-	// intId, err := strconv.Atoi(blogId)
-
-	// if err != nil {
-	// 	http.Error(w, err.Error(), http.StatusBadRequest)
-	// }
-
 	// Parse form data
 	err := r.ParseForm()
 	if err != nil {
@@ -61,7 +48,7 @@ func UpdateArticle(w http.ResponseWriter, r *http.Request, blog types.Blog) {
 			break
 		}
 	}
-	err = data.UpdateBlog(blogs)
+	err = data.RestoreBlog(blogs)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

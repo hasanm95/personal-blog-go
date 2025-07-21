@@ -15,7 +15,7 @@
                     <h2 class="article-title">{{.Title}}</h2>
                     <div class="article-actions">
                         <a href="{{printf "/edit/%v" .ID}}" class="button">Edit</a>
-                        <button class="button delete">Delete</button>
+                        <a href="{{printf "/delete/%v" .ID}}" class="button delete">Delete</a>
                     </div>
                 </div>
                 <div class="article-meta">
