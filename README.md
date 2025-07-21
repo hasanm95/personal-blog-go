@@ -2,7 +2,7 @@
 
 A simple blog application built with Go that allows users to create, read, update, and delete blog posts. The application includes an admin panel with authentication to manage content.
 
-This project is part of the [roadmap.sh](https://roadmap.sh/projects/expense-tracker)
+This project is part of the [roadmap.sh](https://roadmap.sh/projects/personal-blog)
 
 ## Features
 
